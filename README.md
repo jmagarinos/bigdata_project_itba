@@ -43,45 +43,45 @@ bigdata-onboarding-fintech/
 
 ## 🚀 Cómo ejecutar el proyecto
 
-1 Instalar dependencias
+1) Instalar dependencias
 Instalar las librerías necesarias:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-2 Correr los scripts en orden
+2) Correr los scripts en orden
 Ingesta de datos CSV ➔ Parquet:
 
 ```bash
 python3.11 -m scripts.ingestion
 ```
 
-3 Preprocesamiento (limpieza de datos):
+3) Preprocesamiento (limpieza de datos):
 
 ```bash
 python3.11 -m scripts.preprocessing
 ```
 
-4 Transformación de métricas de onboarding:
+4) Transformación de métricas de onboarding:
 
 ```bash
 python3.11 -m scripts.transformation
 ```
 
-5 Carga en Cassandra (asegurarse que Cassandra esté corriendo):
+5) Carga en Cassandra (asegurarse que Cassandra esté corriendo):
 
 ```bash
 python3.11 -m scripts.cassandra_load
 ```
 
-6 Verificación de datos en Cassandra:
+6) Verificación de datos en Cassandra:
 
 ```bash
 python3.11 -m scripts.check_cassandra
 ```
 
-7 Visualización del funnel de onboarding:
+7) Visualización del funnel de onboarding:
 
 ```bash
 python3.11 -m scripts.funnel_plot
