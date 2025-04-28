@@ -1,7 +1,6 @@
 # scripts/ingestion.py
 
 import os
-import sys
 from config.spark_session import get_spark_session
 
 # Configuración inicial
