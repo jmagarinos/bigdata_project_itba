@@ -1,18 +1,27 @@
 # bigdata_project_itba
 
-bigdata_project_itba/
+📚 Descripción del proyecto
+Este proyecto implementa un pipeline de Ingeniería de Datos sobre una arquitectura de Big Data para una fintech de Latinoamérica que busca reducir el abandono de usuarios en su aplicación.
+El proceso completo de ETL fue desarrollado utilizando Apache Spark y Apache Cassandra, y aborda la medición de métricas de onboarding como drop, activación, hábito y setup.
+
+```plaintext
+```markdown
+## 🛠️ Estructura del proyecto
+
+```plaintext
+bigdata-onboarding-fintech/
 ├── config/
 │   ├── __init__.py
-│   └── spark_session.py               # Configura Spark + Cassandra Connector
+│   └── spark_session.py               # Configuración de Spark + Cassandra Connector
 ├── scripts/
-│   ├── ingestion.py                   # Carga CSV a Parquet
+│   ├── ingestion.py                   # Ingesta de CSV a Parquet
 │   ├── preprocessing.py               # Limpieza de datos
-│   ├── transformation.py              # Cálculo de métricas (drop, activación, hábito, setup)
-│   ├── cassandra_load.py               # Carga final en Cassandra
-│   ├── check_cassandra.py              # Script para verificar datos en Cassandra
-│   ├── funnel_plot.py                  # Gráfico de funnel de onboarding (opcional para presentación)
+│   ├── transformation.py              # Cálculo de métricas de negocio
+│   ├── cassandra_load.py               # Carga de datos finales en Cassandra
+│   ├── check_cassandra.py              # Consulta de datos en Cassandra
+│   ├── funnel_plot.py                  # Gráfico de funnel de onboarding
 ├── data/
-│   ├── raw/                            # CSV originales (lk_users.csv, bt_users_transactions.csv, etc.)
+│   ├── raw/                            # Archivos CSV originales
 │   ├── processed/
 │   │   ├── lk_users.parquet
 │   │   ├── bt_users_transactions.parquet
@@ -24,10 +33,10 @@ bigdata_project_itba/
 │   │       └── final/
 │   │           └── onboarding_final.parquet
 ├── diagrams/
-│   └── architecture_diagram.png       # Diagrama de arquitectura Big Data
+│   └── architecture_diagram.png        # Diagrama de arquitectura Big Data
 ├── notebooks/
-│   ├── exploratory_analysis.ipynb     # Análisis exploratorio inicial (opcional)
-│   ├── pruebas_funnel.ipynb            # Notebook para el gráfico de funnel (opcional)
-├── README.md                           # Documentación general del proyecto
-├── .gitignore                          # Archivos/carpetas que no se versionan
-└── requirements.txt                    # Librerías necesarias (pyspark, cassandra-driver, matplotlib, pandas)
+│   ├── exploratory_analysis.ipynb       # Análisis exploratorio (opcional)
+│   ├── pruebas_funnel.ipynb              # Notebook para el gráfico de funnel (opcional)
+├── README.md                             # Documentación general
+├── .gitignore                            # Archivos ignorados en el repo
+└── requirements.txt                      # Dependencias necesarias
