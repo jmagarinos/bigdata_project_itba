@@ -1,0 +1,8 @@
+# Ignorar todos los __pycache__ donde estén
+**/__pycache__/
+
+# Ignorar archivos de éxito de Spark
+**/_SUCCESS
+
+# Ignorar archivos de éxito de Spark
+**/._SUCCESS.crc
