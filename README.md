@@ -4,8 +4,6 @@
 Este proyecto implementa un pipeline de Ingeniería de Datos sobre una arquitectura de Big Data para una fintech de Latinoamérica que busca reducir el abandono de usuarios en su aplicación.
 El proceso completo de ETL fue desarrollado utilizando Apache Spark y Apache Cassandra, y aborda la medición de métricas de onboarding como drop, activación, hábito y setup.
 
-```plaintext
-```markdown
 ## 🛠️ Estructura del proyecto
 
 ```plaintext
