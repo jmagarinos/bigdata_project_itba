@@ -6,7 +6,7 @@ import pandas as pd
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
 
-# Crear sesión de Spark simple
+# Crear sesión de Spark
 spark = SparkSession.builder.appName("FunnelPlotOnboarding").getOrCreate()
 
 # Paths
@@ -16,7 +16,7 @@ DATA_FINAL_PATH = os.path.join(PROJECT_ROOT, 'data', 'processed', 'clean', 'fina
 # Leer parquet final
 df = spark.read.parquet(os.path.join(DATA_FINAL_PATH, 'onboarding_final.parquet'))
 
-# Renombrar 'drop' a 'drop_flag' si no lo hiciste ya
+# Renombrar 'drop' a 'drop_flag'
 df = df.withColumnRenamed("drop", "drop_flag")
 
 # Cálculos
@@ -40,11 +40,12 @@ funnel_data = {
 
 funnel_df = pd.DataFrame(funnel_data)
 
-# Plot
-plt.figure(figsize=(8,6))
-plt.plot(funnel_df["Etapa"], funnel_df["Porcentaje"], marker="o")
-plt.gca().invert_yaxis()
+# Funnel plot con barras horizontales
+plt.figure(figsize=(8, 6))
+plt.barh(funnel_df["Etapa"], funnel_df["Porcentaje"], color="skyblue", edgecolor="black")
+plt.gca().invert_yaxis()  # Poner "No Drop" arriba y "Setup" abajo
 plt.title("Funnel de Onboarding")
-plt.ylabel("Porcentaje de Usuarios (%)")
-plt.grid(True)
+plt.xlabel("Porcentaje de Usuarios (%)")
+plt.grid(axis="x", linestyle="--", alpha=0.7)
+plt.tight_layout()
 plt.show()
