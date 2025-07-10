@@ -6,7 +6,9 @@ from pyspark.sql.functions import col
 
 # Definir paths
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-DATA_FINAL_PATH = os.path.join(PROJECT_ROOT, 'data', 'processed', 'clean', 'final')
+
+# Capa Gold
+DATA_FINAL_PATH = os.path.join(PROJECT_ROOT, 'data', 'gold')
 
 def main():
     # Crear sesión de Spark

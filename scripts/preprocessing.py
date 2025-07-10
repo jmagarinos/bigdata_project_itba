@@ -8,16 +8,21 @@ from config.spark_session import get_spark_session
 
 # Definir la raíz del proyecto
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-DATA_PROCESSED_PATH = os.path.join(PROJECT_ROOT, 'data', 'processed')
+
+# Capa Bronze (parquets generados tras la ingesta)
+BRONZE_PARQUET_PATH = os.path.join(PROJECT_ROOT, 'data', 'bronze', 'parquet')
+
+# Capa Silver (datos limpios)
+SILVER_PATH = os.path.join(PROJECT_ROOT, 'data', 'silver')
 
 def main():
     # Crear sesión de Spark
     spark = get_spark_session("PreprocessingOnboardingFintech")
 
-    # Leer datasets procesados
-    lk_users = spark.read.parquet(os.path.join(DATA_PROCESSED_PATH, 'lk_users.parquet'))
-    bt_users_transactions = spark.read.parquet(os.path.join(DATA_PROCESSED_PATH, 'bt_users_transactions.parquet'))
-    lk_onboarding = spark.read.parquet(os.path.join(DATA_PROCESSED_PATH, 'lk_onboarding.parquet'))
+    # Leer datasets de la capa Bronze (parquet)
+    lk_users = spark.read.parquet(os.path.join(BRONZE_PARQUET_PATH, 'lk_users.parquet'))
+    bt_users_transactions = spark.read.parquet(os.path.join(BRONZE_PARQUET_PATH, 'bt_users_transactions.parquet'))
+    lk_onboarding = spark.read.parquet(os.path.join(BRONZE_PARQUET_PATH, 'lk_onboarding.parquet'))
 
     # --- LIMPIEZA DE DATOS ---
 
@@ -45,14 +50,14 @@ def main():
 
     # --- GUARDAR ARCHIVOS LIMPIOS ---
 
-    output_clean_path = os.path.join(DATA_PROCESSED_PATH, 'clean')
+    output_clean_path = SILVER_PATH
     os.makedirs(output_clean_path, exist_ok=True)
 
     lk_users.write.mode("overwrite").parquet(os.path.join(output_clean_path, 'lk_users_clean.parquet'))
     bt_users_transactions.write.mode("overwrite").parquet(os.path.join(output_clean_path, 'bt_users_transactions_clean.parquet'))
     lk_onboarding.write.mode("overwrite").parquet(os.path.join(output_clean_path, 'lk_onboarding_clean.parquet'))
 
-    print("\n✅ Preprocesamiento terminado. Archivos limpios guardados en /data/processed/clean/")
+    print("\n✅ Preprocesamiento terminado. Archivos limpios guardados en /data/silver/")
 
 if __name__ == "__main__":
     main()

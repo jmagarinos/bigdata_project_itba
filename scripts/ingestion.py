@@ -5,17 +5,20 @@ from config.spark_session import get_spark_session
 
 # Configuración inicial
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-DATA_PATH = os.path.join(PROJECT_ROOT, 'data')
+
+# Rutas para la capa Bronze
+BRONZE_PATH = os.path.join(PROJECT_ROOT, 'data', 'bronze')
+CSV_PATH = BRONZE_PATH  # CSV originales
 
 
 def main():
     # Levantar sesión de Spark
     spark = get_spark_session("IngestionOnboardingFintech")
 
-    # Cargar datasets
-    lk_users = spark.read.option("header", "true").csv(os.path.join(DATA_PATH, 'lk_users.csv'))
-    bt_users_transactions = spark.read.option("header", "true").csv(os.path.join(DATA_PATH, 'bt_users_transactions.csv'))
-    lk_onboarding = spark.read.option("header", "true").csv(os.path.join(DATA_PATH, 'lk_onboarding.csv'))
+    # Cargar datasets desde la capa Bronze
+    lk_users = spark.read.option("header", "true").csv(os.path.join(CSV_PATH, 'lk_users.csv'))
+    bt_users_transactions = spark.read.option("header", "true").csv(os.path.join(CSV_PATH, 'bt_users_transactions.csv'))
+    lk_onboarding = spark.read.option("header", "true").csv(os.path.join(CSV_PATH, 'lk_onboarding.csv'))
 
     # Mostrar algunas estadísticas rápidas
     print("\n=== lk_users ===")
@@ -31,7 +34,7 @@ def main():
     print(f"Cantidad de registros: {lk_onboarding.count()}")
 
     # Opcional: guardar como parquet para usar más rápido después
-    output_path = os.path.join(DATA_PATH, 'processed')
+    output_path = os.path.join(BRONZE_PATH, 'parquet')
     os.makedirs(output_path, exist_ok=True)
 
     lk_users.write.mode("overwrite").parquet(os.path.join(output_path, 'lk_users.parquet'))
