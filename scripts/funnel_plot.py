@@ -11,7 +11,9 @@ spark = SparkSession.builder.appName("FunnelPlotOnboarding").getOrCreate()
 
 # Paths
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-DATA_FINAL_PATH = os.path.join(PROJECT_ROOT, 'data', 'processed', 'clean', 'final')
+
+# Capa Gold
+DATA_FINAL_PATH = os.path.join(PROJECT_ROOT, 'data', 'gold')
 
 # Leer parquet final
 df = spark.read.parquet(os.path.join(DATA_FINAL_PATH, 'onboarding_final.parquet'))
