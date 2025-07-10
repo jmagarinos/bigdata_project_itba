@@ -28,12 +28,12 @@ bigdata-onboarding-fintech/
 │   │   ├── lk_users.parquet
 │   │   ├── bt_users_transactions.parquet
 │   │   ├── lk_onboarding.parquet
-│   │   └── clean/
-│   │       ├── lk_users_clean.parquet
-│   │       ├── bt_users_transactions_clean.parquet
-│   │       ├── lk_onboarding_clean.parquet
-│   │       └── final/
-│   │           └── onboarding_final.parquet
+│   ├── clean/
+│   │   ├── lk_users_clean.parquet
+│   │   ├── bt_users_transactions_clean.parquet
+│   │   ├── lk_onboarding_clean.parquet
+│   │   └── final/
+│   │       └── onboarding_final.parquet
 ├── diagrams/
 │   └── architecture_diagram.png        # Diagrama de arquitectura Big Data
 ├── notebooks/
