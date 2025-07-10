@@ -23,9 +23,17 @@ bigdata-onboarding-fintech/
 │   ├── check_cassandra.py              # Consulta de datos en Cassandra
 │   ├── funnel_plot.py                  # Gráfico de funnel de onboarding
 ├── data/
-│   ├── bronze/                         # Datos crudos y parquet de ingesta
-│   ├── silver/                         # Datos limpios
-│   └── gold/                           # Métricas finales para consumo
+│   ├── raw/                            # Archivos CSV originales
+│   ├── processed/
+│   │   ├── lk_users.parquet
+│   │   ├── bt_users_transactions.parquet
+│   │   ├── lk_onboarding.parquet
+│   │   └── clean/
+│   │       ├── lk_users_clean.parquet
+│   │       ├── bt_users_transactions_clean.parquet
+│   │       ├── lk_onboarding_clean.parquet
+│   │       └── final/
+│   │           └── onboarding_final.parquet
 ├── diagrams/
 │   └── architecture_diagram.png        # Diagrama de arquitectura Big Data
 ├── notebooks/
@@ -36,12 +44,6 @@ bigdata-onboarding-fintech/
 └── requirements.txt                      # Dependencias necesarias
 
 ```
-
-El flujo de datos sigue un esquema *Bronze ➔ Silver ➔ Gold* donde:
-
-- **Bronze** almacena los datos crudos y los Parquet generados en la ingesta.
-- **Silver** contiene la información ya depurada lista para transformaciones.
-- **Gold** aloja las métricas finales listas para ser consumidas o cargadas en Cassandra.
 
 ## 🚀 Cómo ejecutar el proyecto
 

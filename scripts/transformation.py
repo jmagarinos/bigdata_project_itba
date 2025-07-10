@@ -7,21 +7,16 @@ from config.spark_session import get_spark_session
 
 # Definir paths
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-
-# Capa Silver (datos limpios)
-SILVER_PATH = os.path.join(PROJECT_ROOT, 'data', 'silver')
-
-# Capa Gold (resultado para consumo)
-GOLD_PATH = os.path.join(PROJECT_ROOT, 'data', 'gold')
+DATA_CLEAN_PATH = os.path.join(PROJECT_ROOT, 'data', 'processed', 'clean')
 
 def main():
     # Crear sesión de Spark
     spark = get_spark_session("TransformationOnboardingFintech")
 
-    # Leer datasets limpios desde la capa Silver
-    lk_users = spark.read.parquet(os.path.join(SILVER_PATH, 'lk_users_clean.parquet'))
-    bt_users_transactions = spark.read.parquet(os.path.join(SILVER_PATH, 'bt_users_transactions_clean.parquet'))
-    lk_onboarding = spark.read.parquet(os.path.join(SILVER_PATH, 'lk_onboarding_clean.parquet'))
+    # Leer datasets limpios
+    lk_users = spark.read.parquet(os.path.join(DATA_CLEAN_PATH, 'lk_users_clean.parquet'))
+    bt_users_transactions = spark.read.parquet(os.path.join(DATA_CLEAN_PATH, 'bt_users_transactions_clean.parquet'))
+    lk_onboarding = spark.read.parquet(os.path.join(DATA_CLEAN_PATH, 'lk_onboarding_clean.parquet'))
 
     # --- TRANSFORMACIONES ---
     
@@ -66,12 +61,12 @@ def main():
         .withColumn("habito_final", F.coalesce(col("habito_individual"), col("habito_seller"), lit(0)))
 
     # --- Guardar resultados ---
-    output_transform_path = GOLD_PATH
+    output_transform_path = os.path.join(DATA_CLEAN_PATH, 'final')
     os.makedirs(output_transform_path, exist_ok=True)
 
     onboarding_final.write.mode("overwrite").parquet(os.path.join(output_transform_path, 'onboarding_final.parquet'))
 
-    print("\n✅ Transformación terminada. Dataset final guardado en /data/gold/")
+    print("\n✅ Transformación terminada. Dataset final guardado en /data/processed/clean/final/")
 
 if __name__ == "__main__":
     main()
