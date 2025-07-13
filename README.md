@@ -12,18 +12,21 @@ El proceso completo de ETL fue desarrollado utilizando Apache Spark y Apache Cas
 
 ```plaintext
 bigdata-onboarding-fintech/
-├── config/
-│   ├── __init__.py
-│   └── spark_session.py               # Configuración de Spark + Cassandra Connector
 ├── scripts/
+    ├── config/
+│   │   ├── __init__.py
+│   │   └── spark_session.py           # Configuración de Spark + Cassandra Connector
 │   ├── ingestion.py                   # Ingesta de CSV a Parquet
 │   ├── preprocessing.py               # Limpieza de datos
 │   ├── transformation.py              # Cálculo de métricas de negocio
-│   ├── cassandra_load.py               # Carga de datos finales en Cassandra
-│   ├── check_cassandra.py              # Consulta de datos en Cassandra
-│   ├── funnel_plot.py                  # Gráfico de funnel de onboarding
+│   ├── cassandra_load.py              # Carga de datos finales en Cassandra
+│   ├── check_cassandra.py             # Consulta de datos en Cassandra
+│   ├── funnel_plot.py                 # Gráfico de funnel de onboarding
 ├── data/
 │   ├── raw/                            # Archivos CSV originales
+│   │   ├── bt_users_transactions.csv
+│   │   ├── lk_onboarding.csv
+│   │   ├── lk_users.csv
 │   ├── processed/
 │   │   ├── lk_users.parquet
 │   │   ├── bt_users_transactions.parquet
@@ -32,8 +35,9 @@ bigdata-onboarding-fintech/
 │   │   ├── lk_users_clean.parquet
 │   │   ├── bt_users_transactions_clean.parquet
 │   │   ├── lk_onboarding_clean.parquet
-│   │   └── final/
-│   │       └── onboarding_final.parquet
+│   │   └──
+    ├── final/
+│   │   └── onboarding_final.parquet
 ├── diagrams/
 │   └── architecture_diagram.png        # Diagrama de arquitectura Big Data
 ├── notebooks/
@@ -58,37 +62,37 @@ pip install -r requirements.txt
 Ingesta de datos CSV ➔ Parquet:
 
 ```bash
-python3.11 -m scripts.ingestion
+python3 scripts/ingestion.py
 ```
 
 3) Preprocesamiento (limpieza de datos):
 
 ```bash
-python3.11 -m scripts.preprocessing
+python3 scripts/preprocessing.py
 ```
 
 4) Transformación de métricas de onboarding:
 
 ```bash
-python3.11 -m scripts.transformation
+python3 scripts/transformation.py
 ```
 
 5) Carga en Cassandra (asegurarse que Cassandra esté corriendo):
 
 ```bash
-python3.11 -m scripts.cassandra_load
+python3 scripts/cassandra_load.py
 ```
 
 6) Verificación de datos en Cassandra:
 
 ```bash
-python3.11 -m scripts.check_cassandra
+python3 scripts/check_cassandra.py
 ```
 
 7) Visualización del funnel de onboarding:
 
 ```bash
-python3.11 -m scripts.funnel_plot
+python3 scripts/funnel_plot.py
 ```
 
 ## 🧱 Requerimientos técnicos
