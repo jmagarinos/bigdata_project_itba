@@ -7,21 +7,23 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
 
 # Crear sesión de Spark
-spark = SparkSession.builder.appName("FunnelPlotOnboarding").getOrCreate()
+spark = SparkSession.builder \
+    .appName("FunnelPlotOnboarding") \
+    .config("spark.jars.packages", "com.datastax.spark:spark-cassandra-connector_2.12:3.4.1") \
+    .config("spark.cassandra.connection.host", "localhost") \
+    .getOrCreate()
 
-# Paths
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-DATA_FINAL_PATH = os.path.join(PROJECT_ROOT, 'data', 'processed', 'clean', 'final')
+# Leer datos desde Cassandra
+df = spark.read \
+    .format("org.apache.spark.sql.cassandra") \
+    .options(table="users_metrics", keyspace="fintech_onboarding") \
+    .load()
 
-# Leer parquet final
-df = spark.read.parquet(os.path.join(DATA_FINAL_PATH, 'onboarding_final.parquet'))
-
-# Renombrar 'drop' a 'drop_flag'
+# Renombrar 'drop' si es necesario (si tu tabla en Cassandra se llama 'drop_flag', quitá esta línea)
 df = df.withColumnRenamed("drop", "drop_flag")
 
 # Cálculos
 total_users = df.count()
-
 non_dropped = df.filter(col("drop_flag") == 0).count()
 activated = df.filter(col("activacion") == 1).count()
 habitual = df.filter(col("habito_final") == 1).count()
@@ -40,11 +42,11 @@ funnel_data = {
 
 funnel_df = pd.DataFrame(funnel_data)
 
-# Funnel plot con barras horizontales
+# Funnel plot
 plt.figure(figsize=(8, 6))
 plt.barh(funnel_df["Etapa"], funnel_df["Porcentaje"], color="skyblue", edgecolor="black")
-plt.gca().invert_yaxis()  # Poner "No Drop" arriba y "Setup" abajo
-plt.title("Funnel de Onboarding")
+plt.gca().invert_yaxis()
+plt.title("Funnel de Onboarding (Cassandra)")
 plt.xlabel("Porcentaje de Usuarios (%)")
 plt.grid(axis="x", linestyle="--", alpha=0.7)
 plt.tight_layout()

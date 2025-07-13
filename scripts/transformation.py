@@ -7,7 +7,7 @@ from config.spark_session import get_spark_session
 
 # Definir paths
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-DATA_CLEAN_PATH = os.path.join(PROJECT_ROOT, 'data', 'processed', 'clean')
+DATA_CLEAN_PATH = os.path.join(PROJECT_ROOT, 'data', 'clean')
 
 def main():
     # Crear sesión de Spark
@@ -61,12 +61,12 @@ def main():
         .withColumn("habito_final", F.coalesce(col("habito_individual"), col("habito_seller"), lit(0)))
 
     # --- Guardar resultados ---
-    output_transform_path = os.path.join(DATA_CLEAN_PATH, 'final')
+    output_transform_path = os.path.join(PROJECT_ROOT, 'data', 'final')
     os.makedirs(output_transform_path, exist_ok=True)
 
     onboarding_final.write.mode("overwrite").parquet(os.path.join(output_transform_path, 'onboarding_final.parquet'))
 
-    print("\n✅ Transformación terminada. Dataset final guardado en /data/processed/clean/final/")
+    print("\n✅ Transformación terminada. Dataset final guardado en /data/final/")
 
 if __name__ == "__main__":
     main()
